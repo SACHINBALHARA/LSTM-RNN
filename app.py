@@ -5,7 +5,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 #Load the LSTM Model
-model=load_model('next_word_lstm.h5')
+model=load_model('next_word_lstm1.h5')
 
 #3 Laod the tokenizer
 with open('tokenizer.pickle','rb') as handle:
@@ -15,7 +15,7 @@ with open('tokenizer.pickle','rb') as handle:
 def predict_next_word(model, tokenizer, text, max_sequence):
     token_list = tokenizer.texts_to_sequences([text])[0]
     if len(token_list) >= max_sequence_len:
-        token_list = token_list[-(max_sequence_len-1):]  # Ensure the sequence length matches max_sequence_len-1
+        token_list = token_list[-(max_sequence-1):]  # Ensure the sequence length matches max_sequence_len-1
     token_list = pad_sequences([token_list], maxlen=max_sequence-1, padding='pre')
     predicted = model.predict(token_list, verbose=0)
     predicted_word_index = np.argmax(predicted, axis=1)
